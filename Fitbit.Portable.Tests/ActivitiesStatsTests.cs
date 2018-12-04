@@ -18,20 +18,20 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("ActivitiesStats.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/activities.json", message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetActivitiesStatsAsync();
+            ActivitiesStats response = await fitbitClient.GetActivitiesStatsAsync();
 
             ValidateActivity(response);
         }
@@ -41,13 +41,13 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Activities()
         {
             string content = SampleDataHelper.GetContent("ActivitiesStats.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             ActivitiesStats stats = deserializer.Deserialize<ActivitiesStats>(content);
 
             ValidateActivity(stats);
         }
-        
+
         private void ValidateActivity(ActivitiesStats stats)
         {
             stats.Lifetime.Total.CaloriesOut.Should().Be(60223);

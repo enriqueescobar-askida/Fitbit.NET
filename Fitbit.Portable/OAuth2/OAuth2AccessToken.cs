@@ -1,8 +1,9 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace Fitbit.Api.Portable.OAuth2
+﻿namespace Fitbit.Api.Portable.OAuth2
 {
+    using System;
+
+    using Newtonsoft.Json;
+
     public class OAuth2AccessToken
     {
         [JsonProperty("access_token")]
@@ -13,7 +14,7 @@ namespace Fitbit.Api.Portable.OAuth2
 
         [JsonProperty("scope")]
         public string Scope { get; set; }
-        
+
         [JsonProperty("expires_in")]
         public int ExpiresIn { get; set; } //maybe convert this to a DateTime ?
 

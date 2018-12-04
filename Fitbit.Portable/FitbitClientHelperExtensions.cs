@@ -24,7 +24,7 @@ namespace Fitbit.Api.Portable
                 userSignifier = encodedUserId;    
             }
             
-            var parameters = new List<object> {userSignifier};
+            List<object> parameters = new List<object> {userSignifier};
             if (args != null)
             {
                 parameters.AddRange(args);
@@ -46,7 +46,7 @@ namespace Fitbit.Api.Portable
         /// <returns></returns>
         internal static string ToTimeSeriesProperty(this IntradayResourceType timeseriesResource)
         {
-            var timeSeriesResourceDisplay = timeseriesResource.GetStringValue();
+            string timeSeriesResourceDisplay = timeseriesResource.GetStringValue();
             if (timeSeriesResourceDisplay.StartsWith("/"))
             {
                 timeSeriesResourceDisplay = timeSeriesResourceDisplay.TrimStart(new[] { '/' });
@@ -62,7 +62,7 @@ namespace Fitbit.Api.Portable
         /// <returns></returns>
         internal static string ToTimeSeriesProperty(this TimeSeriesResourceType timeseriesResource)
         {
-            var timeSeriesResourceDisplay = timeseriesResource.GetStringValue();
+            string timeSeriesResourceDisplay = timeseriesResource.GetStringValue();
             if (timeSeriesResourceDisplay.StartsWith("/"))
             {
                 timeSeriesResourceDisplay = timeSeriesResourceDisplay.TrimStart(new[] { '/' });
@@ -109,11 +109,11 @@ namespace Fitbit.Api.Portable
                 // inspired by the code referenced from the web api source; this creates the russian doll effect
                 FitbitHttpMessageHandler innerHandler = new FitbitHttpMessageHandler(client, interceptors[0]);
 
-                var innerHandlers = interceptors.GetRange(1, interceptors.Count - 1);
+                List<IFitbitInterceptor> innerHandlers = interceptors.GetRange(1, interceptors.Count - 1);
 
-                foreach (var handler in innerHandlers)
+                foreach (IFitbitInterceptor handler in innerHandlers)
                 {
-                    var messageHandler = new FitbitHttpMessageHandler(client, handler);
+                    FitbitHttpMessageHandler messageHandler = new FitbitHttpMessageHandler(client, handler);
                     messageHandler.InnerHandler = innerHandler;
                     innerHandler = messageHandler;
                 }

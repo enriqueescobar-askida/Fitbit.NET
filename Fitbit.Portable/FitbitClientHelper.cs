@@ -10,7 +10,7 @@ namespace Fitbit.Api.Portable
         {
             if ((sleepData != null) && (sleepData.Sleep != null))
             {
-                foreach (var sleepLog in sleepData.Sleep)
+                foreach (SleepLog sleepLog in sleepData.Sleep)
                 {
                     if (sleepLog.MinuteData == null)
                         continue;
@@ -20,7 +20,7 @@ namespace Fitbit.Api.Portable
                     for (int i = 0; i < sleepLog.MinuteData.Count; i++)
                     {
                         //work with a local minute data info instance
-                        var minuteData = sleepLog.MinuteData[i];
+                        MinuteData minuteData = sleepLog.MinuteData[i];
 
                         // determine how many seconds have elapsed since mightnight in the date
                         int currentSeconds = minuteData.DateTime.ToElapsedSeconds();

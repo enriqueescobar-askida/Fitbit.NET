@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Fitbit.Models;
-
-namespace Fitbit.Api.Portable.Interceptors
+﻿namespace Fitbit.Api.Portable.Interceptors
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Fitbit.Models;
+
     public class FitbitHttpErrorHandler : IFitbitInterceptor
     {
         public Task<HttpResponseMessage> InterceptRequest(HttpRequestMessage request, CancellationToken cancellationToken, FitbitClient invokingClient)
@@ -35,7 +36,7 @@ namespace Fitbit.Api.Portable.Interceptors
 
             try
             {
-                // assumption is error response from fitbit in the 4xx range  
+                // assumption is error response from fitbit in the 4xx range
                 errors = new JsonDotNetSerializer().ParseErrors(await response.Content.ReadAsStringAsync());
             }
             catch(ArgumentNullException emptyBodyException)
@@ -47,9 +48,9 @@ namespace Fitbit.Api.Portable.Interceptors
                 errors = new List<ApiError>() { { new ApiError() { ErrorType = "Fitbit.Net client library error", Message = "Unexpected error when deserializing the content of Fitbit's response." } } };
             }
 
-            var exception = new FitbitRequestException(response, errors);
+            FitbitRequestException exception = new FitbitRequestException(response, errors);
 
-            throw exception;                            
+            throw exception;
         }
     }
 }

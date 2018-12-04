@@ -28,7 +28,7 @@ namespace Fitbit.Portable.Tests
 
             string content = SampleDataHelper.GetContent("SingleSubscriptionNotification.xml");
 
-            var sut = new SubscriptionManager();
+            SubscriptionManager sut = new SubscriptionManager();
 
             List<UpdatedResource> resultResourceList = sut.ProcessUpdateReponseBody(content);
             Assert.IsNotNull(resultResourceList);
@@ -57,7 +57,7 @@ namespace Fitbit.Portable.Tests
 
             string content = SampleDataHelper.GetContent("MultipleSingleSubscriptionNotification.xml");
 
-            var sut = new SubscriptionManager();
+            SubscriptionManager sut = new SubscriptionManager();
 
             List<UpdatedResource> resultResourceList = sut.ProcessUpdateReponseBody(content);
 

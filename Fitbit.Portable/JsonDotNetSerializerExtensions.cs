@@ -41,8 +41,8 @@ namespace Fitbit.Api.Portable
                 throw new ArgumentNullException(nameof(fatJson), "fatJson can not be empty, null or whitespace");
             }
 
-            var fatlogs = JToken.Parse(fatJson)["fat"];
-            var fat = new Fat();
+            JToken fatlogs = JToken.Parse(fatJson)["fat"];
+            Fat fat = new Fat();
             fat.FatLogs = fatlogs.Children().Select(serializer.Deserialize<FatLog>).ToList();
             return fat;
         }
@@ -60,8 +60,8 @@ namespace Fitbit.Api.Portable
                 throw new ArgumentNullException(nameof(weightJson), "weightJson can not be empty, null or whitespace");
             }
 
-            var weightlogs = JToken.Parse(weightJson)["weight"];
-            var weight = new Weight();
+            JToken weightlogs = JToken.Parse(weightJson)["weight"];
+            Weight weight = new Weight();
             weight.Weights = weightlogs.Children().Select(serializer.Deserialize<WeightLog>).ToList();
             return weight;
         }
@@ -80,7 +80,7 @@ namespace Fitbit.Api.Portable
             }
 
             serializer.RootProperty = "user";
-            var friends = JToken.Parse(friendsJson)["friends"];
+            JToken friends = JToken.Parse(friendsJson)["friends"];
             return friends.Children().Select(serializer.Deserialize<UserProfile>).ToList();           
         }
 
@@ -101,10 +101,10 @@ namespace Fitbit.Api.Portable
                 throw new ArgumentNullException("heartRateIntradayJson", "heartRateIntradayJson can not be empty, null or whitespace.");
             }
 
-            var activitiesHeartIntraday = JToken.Parse(heartRateIntradayJson)["activities-heart-intraday"];
-            var dataset = activitiesHeartIntraday["dataset"];
+            JToken activitiesHeartIntraday = JToken.Parse(heartRateIntradayJson)["activities-heart-intraday"];
+            JToken dataset = activitiesHeartIntraday["dataset"];
 
-            var result = new HeartActivitiesIntraday
+            HeartActivitiesIntraday result = new HeartActivitiesIntraday
             {
                 ActivitiesHeart = serializer.Deserialize<IntradayActivitiesHeart>(JToken.Parse(heartRateIntradayJson)["activities-heart"].First()),
                 Dataset = (from item in dataset
@@ -129,10 +129,10 @@ namespace Fitbit.Api.Portable
                 throw new ArgumentNullException("heartActivitiesTimeSeries", "heartActivitiesTimeSeries can not be empty, null or whitespace.");
             }
 
-            var activitiesHeartIntraday = JToken.Parse(heartActivitiesTimeSeries)["activities-heart"];
+            JToken activitiesHeartIntraday = JToken.Parse(heartActivitiesTimeSeries)["activities-heart"];
             //var dataset = activitiesHeartIntraday["dataset"];
 
-            var result = new HeartActivitiesTimeSeries()
+            HeartActivitiesTimeSeries result = new HeartActivitiesTimeSeries()
             {
                 HeartActivities = (from item in activitiesHeartIntraday
                                    select new HeartActivities
@@ -163,8 +163,8 @@ namespace Fitbit.Api.Portable
                 throw new ArgumentNullException(nameof(timeSeriesDataJson), "timeSeriesDataJson can not be empty, null or whitespace.");
             }
 
-            var dataPoints = JToken.Parse(timeSeriesDataJson)[serializer.RootProperty];
-            var result = new TimeSeriesDataList
+            JToken dataPoints = JToken.Parse(timeSeriesDataJson)[serializer.RootProperty];
+            TimeSeriesDataList result = new TimeSeriesDataList
             {
                 DataList = (from item in dataPoints
                                 select new TimeSeriesDataList.Data
@@ -190,8 +190,8 @@ namespace Fitbit.Api.Portable
                 throw new ArgumentNullException(nameof(timeSeriesDataJson), "timeSeriesDataJson can not be empty, null or whitespace.");
             }
 
-            var dataPoints = JToken.Parse(timeSeriesDataJson)[serializer.RootProperty];
-            var result = new TimeSeriesDataListInt
+            JToken dataPoints = JToken.Parse(timeSeriesDataJson)[serializer.RootProperty];
+            TimeSeriesDataListInt result = new TimeSeriesDataListInt
             {
                 DataList = (from item in dataPoints
                             select new TimeSeriesDataListInt.Data
@@ -214,7 +214,7 @@ namespace Fitbit.Api.Portable
                 throw new ArgumentNullException(nameof(intradayDataJson), "intradayDataJson can not be empty, null or whitespace.");
             }
 
-            var parsedJToken = JToken.Parse(intradayDataJson);
+            JToken parsedJToken = JToken.Parse(intradayDataJson);
 
             // need to parse the date first  
             JToken date;
@@ -228,9 +228,9 @@ namespace Fitbit.Api.Portable
                 //Return null since this error will, in all cases, coincide with an otherwise empty (all zeros) object
                 return null;
             }
-            var dataPoints = parsedJToken.SelectTokens(serializer.RootProperty + "-intraday.dataset");
+            IEnumerable<JToken> dataPoints = parsedJToken.SelectTokens(serializer.RootProperty + "-intraday.dataset");
 
-            var result = new IntradayData
+            IntradayData result = new IntradayData
             {
                 DataSet = (from item in dataPoints.Children()
                     select new IntradayDataValues

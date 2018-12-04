@@ -15,7 +15,7 @@ namespace Fitbit.Api.Portable
             HttpRequestMessage clone = new HttpRequestMessage(req.Method, req.RequestUri);
 
             // Copy the request's content (via a MemoryStream) into the cloned object
-            var ms = new MemoryStream();
+            MemoryStream ms = new MemoryStream();
             if (req.Content != null)
             {
                 await req.Content.CopyToAsync(ms).ConfigureAwait(false);
@@ -24,7 +24,7 @@ namespace Fitbit.Api.Portable
 
                 // Copy the content headers
                 if (req.Content.Headers != null)
-                    foreach (var h in req.Content.Headers)
+                    foreach (KeyValuePair<string, IEnumerable<string>> h in req.Content.Headers)
                         clone.Content.Headers.Add(h.Key, h.Value);
             }
 

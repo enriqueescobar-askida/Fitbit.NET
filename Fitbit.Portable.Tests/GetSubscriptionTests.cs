@@ -12,14 +12,14 @@ namespace Fitbit.Portable.Tests
         [Test] [Category("Portable")]
         public void Can_Deserialize_ApiSubscription()
         {
-            var content = SampleDataHelper.GetContent("ListApiSubscriptionsResponseSingle.json");
-            var deserializer = new JsonDotNetSerializer { RootProperty = "apiSubscriptions" };
+            string content = SampleDataHelper.GetContent("ListApiSubscriptionsResponseSingle.json");
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer { RootProperty = "apiSubscriptions" };
 
-            var subscriptions = deserializer.Deserialize<List<ApiSubscription>>(content);
+            List<ApiSubscription> subscriptions = deserializer.Deserialize<List<ApiSubscription>>(content);
 
             Assert.IsNotNull(subscriptions);
             Assert.AreEqual(1, subscriptions.Count);
-            var subscription = subscriptions.FirstOrDefault();
+            ApiSubscription subscription = subscriptions.FirstOrDefault();
             Assert.AreEqual(APICollectionType.user, subscription.CollectionType);
             Assert.AreEqual("227YZL", subscription.OwnerId);
             Assert.AreEqual("1", subscription.SubscriberId);
@@ -29,14 +29,14 @@ namespace Fitbit.Portable.Tests
         [Test] [Category("Portable")]
         public void Can_Deserialize_ApiSubscription_Multi()
         {
-            var content = SampleDataHelper.GetContent("ListApiSubscriptionsResponseMultiple.json");
-            var deserializer = new JsonDotNetSerializer { RootProperty = "apiSubscriptions" };
+            string content = SampleDataHelper.GetContent("ListApiSubscriptionsResponseMultiple.json");
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer { RootProperty = "apiSubscriptions" };
 
-            var subscriptions = deserializer.Deserialize<List<ApiSubscription>>(content);
+            List<ApiSubscription> subscriptions = deserializer.Deserialize<List<ApiSubscription>>(content);
 
             Assert.IsNotNull(subscriptions);
             Assert.AreEqual(2, subscriptions.Count);
-            var subscription = subscriptions.FirstOrDefault();
+            ApiSubscription subscription = subscriptions.FirstOrDefault();
             Assert.AreEqual(APICollectionType.user, subscription.CollectionType);
             Assert.AreEqual("227YZL", subscription.OwnerId);
             Assert.AreEqual("1", subscription.SubscriberId);

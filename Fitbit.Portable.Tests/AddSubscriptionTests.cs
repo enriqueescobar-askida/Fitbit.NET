@@ -33,10 +33,10 @@ namespace Fitbit.Portable.Tests
             {
                 Assert.AreEqual(0, message.Headers.Count());
             };
-            
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/apiSubscriptions/323.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.user, "323");
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/apiSubscriptions/323.json", HttpMethod.Post, additionalChecks);
+
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.user, "323");
 
             Assert.AreEqual("323", response.SubscriptionId);
         }
@@ -56,9 +56,9 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(SubScriberId, headerValues.First());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/apiSubscriptions/323.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/apiSubscriptions/323.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.user, "323", SubScriberId);
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.user, "323", SubScriberId);
 
             Assert.AreEqual("323", response.SubscriptionId);
         }
@@ -72,9 +72,9 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(0, message.Headers.Count());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/activities/apiSubscriptions/323-activities.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/activities/apiSubscriptions/323-activities.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.activities, "323");
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.activities, "323");
 
             Assert.AreEqual("323", response.SubscriptionId);
         }
@@ -94,9 +94,9 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(SubScriberId, headerValues.First());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/activities/apiSubscriptions/323-activities.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/activities/apiSubscriptions/323-activities.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.activities, "323", SubScriberId);
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.activities, "323", SubScriberId);
 
             Assert.AreEqual("323", response.SubscriptionId);
         }
@@ -110,9 +110,9 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(0, message.Headers.Count());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/body/apiSubscriptions/323-body.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/body/apiSubscriptions/323-body.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.body, "323");
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.body, "323");
 
             Assert.AreEqual("323", response.SubscriptionId);
         }
@@ -132,10 +132,10 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(SubScriberId, headerValues.First());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/body/apiSubscriptions/323-body.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/body/apiSubscriptions/323-body.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.body, "323", SubScriberId);
-            
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.body, "323", SubScriberId);
+
             Assert.AreEqual("323", response.SubscriptionId);
         }
 
@@ -148,9 +148,9 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(0, message.Headers.Count());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/foods/apiSubscriptions/323-foods.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/foods/apiSubscriptions/323-foods.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.foods, "323");
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.foods, "323");
 
             Assert.AreEqual("323", response.SubscriptionId);
         }
@@ -170,10 +170,10 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(SubScriberId, headerValues.First());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/foods/apiSubscriptions/323-foods.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/foods/apiSubscriptions/323-foods.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.foods, "323", SubScriberId);
-            
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.foods, "323", SubScriberId);
+
             Assert.AreEqual("323", response.SubscriptionId);
         }
 
@@ -186,9 +186,9 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(0, message.Headers.Count());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/meals/apiSubscriptions/323-meals.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/meals/apiSubscriptions/323-meals.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.meals, "323");
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.meals, "323");
 
             Assert.AreEqual("323", response.SubscriptionId);
         }
@@ -208,9 +208,9 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(SubScriberId, headerValues.First());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/meals/apiSubscriptions/323-meals.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/meals/apiSubscriptions/323-meals.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.meals, "323", SubScriberId);
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.meals, "323", SubScriberId);
 
             Assert.AreEqual("323", response.SubscriptionId);
         }
@@ -224,9 +224,9 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(0, message.Headers.Count());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/sleep/apiSubscriptions/323-sleep.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/sleep/apiSubscriptions/323-sleep.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.sleep, "323");
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.sleep, "323");
 
             Assert.AreEqual("323", response.SubscriptionId);
         }
@@ -246,10 +246,10 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(SubScriberId, headerValues.First());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/sleep/apiSubscriptions/323-sleep.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/sleep/apiSubscriptions/323-sleep.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.sleep, "323", SubScriberId);
-            
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.sleep, "323", SubScriberId);
+
             Assert.AreEqual("323", response.SubscriptionId);
         }
 
@@ -262,10 +262,10 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(0, message.Headers.Count());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/weight/apiSubscriptions/323-weight.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/weight/apiSubscriptions/323-weight.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.weight, "323");
-            
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.weight, "323");
+
             Assert.AreEqual("323", response.SubscriptionId);
         }
 
@@ -284,10 +284,10 @@ namespace Fitbit.Portable.Tests
                 Assert.AreEqual(SubScriberId, headerValues.First());
             };
 
-            var fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/weight/apiSubscriptions/323-weight.json", HttpMethod.Post, additionalChecks);
+            FitbitClient fitbitClient = SetupFitbitClient("AddSubscriptionResponse.json", "https://api.fitbit.com/1/user/-/weight/apiSubscriptions/323-weight.json", HttpMethod.Post, additionalChecks);
 
-            var response = await fitbitClient.AddSubscriptionAsync(APICollectionType.weight, "323", SubScriberId);
-            
+            ApiSubscription response = await fitbitClient.AddSubscriptionAsync(APICollectionType.weight, "323", SubScriberId);
+
             Assert.AreEqual("323", response.SubscriptionId);
         }
 
@@ -296,10 +296,10 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_UpdatedResource()
         {
             // aka Add Subscription response
-            var content = SampleDataHelper.GetContent("AddSubscriptionResponse.json");
-            var deserializer = new JsonDotNetSerializer();
+            string content = SampleDataHelper.GetContent("AddSubscriptionResponse.json");
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
-            var subscription = deserializer.Deserialize<ApiSubscription>(content);
+            ApiSubscription subscription = deserializer.Deserialize<ApiSubscription>(content);
             Assert.AreEqual(APICollectionType.user, subscription.CollectionType);
             Assert.AreEqual("227YZL", subscription.OwnerId);
             Assert.AreEqual("1", subscription.SubscriberId);
@@ -310,14 +310,14 @@ namespace Fitbit.Portable.Tests
         [Test] [Category("Portable")]
         public void Can_Deserialize_ApiSubscription()
         {
-            var content = SampleDataHelper.GetContent("ListApiSubscriptions.json");
-            var deserializer = new JsonDotNetSerializer {RootProperty = "apiSubscriptions"};
+            string content = SampleDataHelper.GetContent("ListApiSubscriptions.json");
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer {RootProperty = "apiSubscriptions"};
 
-            var subscriptions = deserializer.Deserialize<List<ApiSubscription>>(content);
+            List<ApiSubscription> subscriptions = deserializer.Deserialize<List<ApiSubscription>>(content);
 
             Assert.IsNotNull(subscriptions);
             Assert.AreEqual(1, subscriptions.Count);
-            var subscription = subscriptions.FirstOrDefault();
+            ApiSubscription subscription = subscriptions.FirstOrDefault();
             Assert.AreEqual(APICollectionType.user, subscription.CollectionType);
             Assert.AreEqual("227YZL", subscription.OwnerId);
             Assert.AreEqual("1", subscription.SubscriberId);
@@ -328,17 +328,17 @@ namespace Fitbit.Portable.Tests
         [Test] [Category("Portable")]
         public void Can_Deserialize_ApiNotifications()
         {
-            var content = SampleDataHelper.GetContent("ApiSubscriptionNotification.json");
-            var deserializer = new JsonDotNetSerializer();
+            string content = SampleDataHelper.GetContent("ApiSubscriptionNotification.json");
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
-            var resources = deserializer.Deserialize<List<UpdatedResource>>(content);
+            List<UpdatedResource> resources = deserializer.Deserialize<List<UpdatedResource>>(content);
 
             Assert.IsNotNull(resources);
             Assert.AreEqual(3, resources.Count);
             Assert.AreEqual(2, resources.Count(x => x.CollectionType == APICollectionType.foods));
             Assert.AreEqual(1, resources.Count(x => x.CollectionType == APICollectionType.activities));
 
-            var resource = resources[0];
+            UpdatedResource resource = resources[0];
             Assert.AreEqual(APICollectionType.foods, resource.CollectionType);
             Assert.AreEqual(new DateTime(2010, 03, 01), resource.Date);
             Assert.AreEqual("228S74", resource.OwnerId);
@@ -364,12 +364,12 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent(contentPath);
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(expectedMethod, message.Method);
                 Assert.AreEqual(url, message.RequestUri.AbsoluteUri);

@@ -60,7 +60,7 @@
 
             if (interceptor != null)
             {
-                var interceptorFakeResponse = await interceptor.InterceptResponse(responseTask, cancellationToken, FitbitClient);
+                HttpResponseMessage interceptorFakeResponse = await interceptor.InterceptResponse(responseTask, cancellationToken, FitbitClient);
 
                 if (interceptorFakeResponse != null) //then highjack the request pipeline and return the HttpResponse returned by interceptor. Invoke Response handler at return.
                 {

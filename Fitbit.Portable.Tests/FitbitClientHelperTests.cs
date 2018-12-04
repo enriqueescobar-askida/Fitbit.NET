@@ -28,7 +28,7 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void ProcessSleepData_NullMinuteDataHandled()
         {
-            var sleep = new SleepData
+            SleepData sleep = new SleepData
             {
                 Sleep = new List<SleepLog>
                 {
@@ -42,7 +42,7 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void ProcessSleepData_MinuteDataToday()
         {
-            var sleep = new SleepData
+            SleepData sleep = new SleepData
             {
                 Sleep = new List<SleepLog>
                 {
@@ -69,7 +69,7 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void ProcessSleepData_MinuteDataTomorrow()
         {
-            var sleep = new SleepData
+            SleepData sleep = new SleepData
             {
                 Sleep = new List<SleepLog>
                 {

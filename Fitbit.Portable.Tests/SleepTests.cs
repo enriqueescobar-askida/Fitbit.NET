@@ -11,6 +11,8 @@ using NUnit.Framework;
 
 namespace Fitbit.Portable.Tests
 {
+    using Fitbit.Models;
+
     [TestFixture]
     public class SleepTests
     {
@@ -20,21 +22,21 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("GetSleepOld.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) {Content = new StringContent(content)};
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/sleep/date/2014-10-17.json",
                     message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetSleepAsync(new DateTime(2014, 10, 17));
+            SleepData response = await fitbitClient.GetSleepAsync(new DateTime(2014, 10, 17));
 
             ValidateSleepOld(response);
         }
@@ -45,21 +47,21 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("GetSleep.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1.2/user/-/sleep/date/2014-10-17.json",
                     message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetSleepDateAsync(new DateTime(2014, 10, 17));
+            SleepLogDateBase response = await fitbitClient.GetSleepDateAsync(new DateTime(2014, 10, 17));
 
             ValidateSleep(response);
         }
@@ -69,13 +71,13 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void GetUserProfileAsync_Failure_Errors()
         {
-            var responseMessage = Helper.CreateErrorResponse();
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Func<HttpResponseMessage> responseMessage = Helper.CreateErrorResponse();
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
             Func<Task<SleepData>> result = () => fitbitClient.GetSleepAsync(new DateTime(2014, 11, 11));
 
@@ -87,7 +89,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Sleep_Old()
         {
             string content = SampleDataHelper.GetContent("GetSleepOld.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             SleepData sleep = deserializer.Deserialize<SleepData>(content);
 
@@ -99,7 +101,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Sleep()
         {
             string content = SampleDataHelper.GetContent("GetSleep.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             SleepLogDateBase sleep = deserializer.Deserialize<SleepLogDateBase>(content);
 
@@ -111,7 +113,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Sleep_Range()
         {
             string content = SampleDataHelper.GetContent("GetSleepRange.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             SleepDateRangeBase sleep = deserializer.Deserialize<SleepDateRangeBase>(content);
 
@@ -124,7 +126,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Sleep_Log_List()
         {
             string content = SampleDataHelper.GetContent("GetSleepRange.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             SleepDateRangeBase sleep = deserializer.Deserialize<SleepDateRangeBase>(content);
 
@@ -141,7 +143,7 @@ namespace Fitbit.Portable.Tests
 
             // logs
             Assert.AreEqual(1, sleep.Sleep.Length);
-            var first = sleep.Sleep.First();
+            SleepLogDateRange first = sleep.Sleep.First();
             Assert.AreEqual(new DateTime(2017, 4, 2).Date, first.DateOfSleep);
             Assert.AreEqual(28800000, first.Duration);
             Assert.AreEqual(85, first.Efficiency);
@@ -157,7 +159,7 @@ namespace Fitbit.Portable.Tests
             Assert.AreEqual("stages", first.Type);
 
             //sleep log levels
-            var levels = first.Levels;
+            Levels levels = first.Levels;
             Assert.IsNotNull(levels.Summary);
             Assert.IsNotNull(levels.Data);
             Assert.IsNotNull(levels.ShortData);
@@ -183,14 +185,14 @@ namespace Fitbit.Portable.Tests
             Assert.AreEqual(72, levels.Summary.Wake.ThirtyDayAvgMinutes);
 
             //sleep log data
-            var data = levels.Data.First();
+            LevelsData data = levels.Data.First();
             Assert.IsNotNull(data);
             Assert.AreEqual(new DateTime(2017, 4, 1), data.DateTime);
             Assert.AreEqual("wake", data.Level);
             Assert.AreEqual(360, data.Seconds);
 
             //sleep log short data
-            var dataShort = levels.ShortData.First();
+            LevelsShortdata dataShort = levels.ShortData.First();
             Assert.IsNotNull(dataShort);
             Assert.AreEqual(new DateTime(2017, 4, 2), dataShort.DateTime);
             Assert.AreEqual("wake", dataShort.Level);
@@ -205,14 +207,14 @@ namespace Fitbit.Portable.Tests
             Assert.IsNotNull(sleep.Sleep);
 
             // summary
-            var summary = sleep.Summary;
+            Summary summary = sleep.Summary;
             Assert.AreEqual(500, summary.TotalMinutesAsleep);
             Assert.AreEqual(1, summary.TotalSleepRecords);
             Assert.AreEqual(586, summary.TotalTimeInBed);
 
             // logs
             Assert.AreEqual(1, sleep.Sleep.Length);
-            var first = sleep.Sleep.First();
+            SleepLogDateRange first = sleep.Sleep.First();
             Assert.AreEqual(new DateTime(2017, 4, 2).Date, first.DateOfSleep);
             Assert.AreEqual(28800000, first.Duration);
             Assert.AreEqual(85, first.Efficiency);
@@ -228,7 +230,7 @@ namespace Fitbit.Portable.Tests
             Assert.AreEqual("stages", first.Type);
 
             //sleep log levels
-            var levels = first.Levels;
+            Levels levels = first.Levels;
             Assert.IsNotNull(levels.Summary);
             Assert.IsNotNull(levels.Data);
             Assert.IsNotNull(levels.ShortData);
@@ -254,14 +256,14 @@ namespace Fitbit.Portable.Tests
             Assert.AreEqual(72, levels.Summary.Wake.ThirtyDayAvgMinutes);
 
             //sleep log data
-            var data = levels.Data.First();
+            LevelsData data = levels.Data.First();
             Assert.IsNotNull(data);
             Assert.AreEqual(new DateTime(2017, 4, 1), data.DateTime);
             Assert.AreEqual("wake", data.Level);
             Assert.AreEqual(360, data.Seconds);
 
             //sleep log short data
-            var dataShort = levels.ShortData.First();
+            LevelsShortdata dataShort = levels.ShortData.First();
             Assert.IsNotNull(dataShort);
             Assert.AreEqual(new DateTime(2017, 4, 2), dataShort.DateTime);
             Assert.AreEqual("wake", dataShort.Level);
@@ -276,14 +278,14 @@ namespace Fitbit.Portable.Tests
             Assert.IsNotNull(sleep.Sleep);
 
             // summary
-            var summary = sleep.Summary;
+            SleepSummary summary = sleep.Summary;
             Assert.AreEqual(518, summary.TotalMinutesAsleep);
             Assert.AreEqual(2, summary.TotalSleepRecords);
             Assert.AreEqual(540, summary.TotalTimeInBed);
 
             // logs
             Assert.AreEqual(2, sleep.Sleep.Count);
-            var l = sleep.Sleep.First();
+            SleepLog l = sleep.Sleep.First();
 
             Assert.AreEqual(true, l.IsMainSleep);
             Assert.AreEqual(29744, l.LogId);
@@ -302,7 +304,7 @@ namespace Fitbit.Portable.Tests
             Assert.AreEqual(480, l.TimeInBed);
             Assert.AreEqual(3, l.MinuteData.Count);
 
-            var min = l.MinuteData.First();
+            MinuteData min = l.MinuteData.First();
             Assert.IsNotNull(min);
             Assert.AreEqual(new DateTime(1900, 1, 1).TimeOfDay, min.DateTime.TimeOfDay);
             Assert.AreEqual(3, min.Value);

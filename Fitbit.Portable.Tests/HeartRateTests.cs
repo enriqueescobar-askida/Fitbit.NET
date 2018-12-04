@@ -23,18 +23,18 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("GetHeartRateTimeSeries.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) });
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
-                var uri = $"https:/" + $"/api.fitbit.com/1.1/user/-/activities/heart/date/{DateTime.Today:yyyy-MM-dd}/1d.json";
+                string uri = $"https:/" + $"/api.fitbit.com/1.1/user/-/activities/heart/date/{DateTime.Today:yyyy-MM-dd}/1d.json";
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual(uri, message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetHeartRateTimeSeries(DateTime.Today, DateRangePeriod.OneDay);
+            HeartActivitiesTimeSeries response = await fitbitClient.GetHeartRateTimeSeries(DateTime.Today, DateRangePeriod.OneDay);
             ValidateHeartRateTimeSeriesData(response);
         }
 
@@ -42,13 +42,13 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void GetHeartRateTimeSeriesAsync_Errors()
         {
-            var responseMessage = Helper.CreateErrorResponse(HttpStatusCode.BadRequest);
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Func<HttpResponseMessage> responseMessage = Helper.CreateErrorResponse(HttpStatusCode.BadRequest);
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
             Func<Task<HeartActivitiesTimeSeries>> result = () => fitbitClient.GetHeartRateTimeSeries(DateTime.MinValue, DateRangePeriod.OneDay);
 
@@ -61,10 +61,10 @@ namespace Fitbit.Portable.Tests
         {
             //assemble
             string content = SampleDataHelper.GetContent("GetHeartRateTimeSeries.json");
-            var seralizer = new JsonDotNetSerializer();
+            JsonDotNetSerializer seralizer = new JsonDotNetSerializer();
 
             //act
-            var stats = seralizer.GetHeartActivitiesTimeSeries(content);
+            HeartActivitiesTimeSeries stats = seralizer.GetHeartActivitiesTimeSeries(content);
 
             //assert
             ValidateHeartRateTimeSeriesData(stats);
@@ -76,18 +76,18 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("GetHeartRateIntradayTimeSeries1.1.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) });
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
-                var uri = $"https:/" + $"/api.fitbit.com/1.1/user/-/activities/heart/date/{DateTime.Today:yyyy-MM-dd}/{DateTime.Today:yyyy-MM-dd}/15min/time/00:00:00/23:59:59.json";
+                string uri = $"https:/" + $"/api.fitbit.com/1.1/user/-/activities/heart/date/{DateTime.Today:yyyy-MM-dd}/{DateTime.Today:yyyy-MM-dd}/15min/time/00:00:00/23:59:59.json";
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual(uri, message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetHeartRateIntraday(DateTime.Today, HeartRateResolution.fifteenMinute);
+            HeartActivitiesIntraday response = await fitbitClient.GetHeartRateIntraday(DateTime.Today, HeartRateResolution.fifteenMinute);
             ValidateHeartRateIntradayTimeSeriesData(response);
         }
 
@@ -95,13 +95,13 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void GetHeartRateIntradayTimeSeriesAsync_Errors()
         {
-            var responseMessage = Helper.CreateErrorResponse(HttpStatusCode.BadRequest);
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Func<HttpResponseMessage> responseMessage = Helper.CreateErrorResponse(HttpStatusCode.BadRequest);
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
             Func<Task<HeartActivitiesIntraday>> result = () => fitbitClient.GetHeartRateIntraday(DateTime.MinValue, HeartRateResolution.fifteenMinute);
 
@@ -115,10 +115,10 @@ namespace Fitbit.Portable.Tests
             //assemble
             string content = SampleDataHelper.GetContent("GetHeartRateIntradayTimeSeries1.1.json");
             DateTime date = DateTime.Parse("2017-08-21"); //hardcoded because extension expects a date. In any other use case, a date would be available
-            var seralizer = new JsonDotNetSerializer();
+            JsonDotNetSerializer seralizer = new JsonDotNetSerializer();
 
             //act
-            var stats = seralizer.GetHeartRateIntraday(date, content);
+            HeartActivitiesIntraday stats = seralizer.GetHeartRateIntraday(date, content);
 
             //assert
             ValidateHeartRateIntradayTimeSeriesData(stats);
@@ -127,7 +127,7 @@ namespace Fitbit.Portable.Tests
         private void ValidateHeartRateIntradayTimeSeriesData(HeartActivitiesIntraday activity)
         {
             //Activities Heart Intraday
-            var actIntraday = activity;
+            HeartActivitiesIntraday actIntraday = activity;
 
             actIntraday.Dataset.Count().Should().Be(96); //Dataset count
 
@@ -142,7 +142,7 @@ namespace Fitbit.Portable.Tests
             actIntraday.DatasetType.Should().Be("minute"); //Dataset Type
 
             //Activities Heart
-            var act = activity.ActivitiesHeart;
+            IntradayActivitiesHeart act = activity.ActivitiesHeart;
 
             act.DateTime.Should().Be(new DateTime(2017, 8, 21)); //DateTime
 
@@ -168,11 +168,11 @@ namespace Fitbit.Portable.Tests
 
         private void ValidateHeartRateTimeSeriesData(HeartActivitiesTimeSeries activities)
         {
-            var act = activities.HeartActivities;
+            List<HeartActivities> act = activities.HeartActivities;
 
             act.Count().Should().Be(7);
 
-            var firstAct = act[0];
+            HeartActivities firstAct = act[0];
             firstAct.DateTime.Should().Be(new DateTime(2017, 08, 15));
 
             firstAct.CustomHeartRateZones.Count().Should().Be(0); //Empty Custom Heart Rate Zones

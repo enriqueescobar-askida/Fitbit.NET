@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 namespace Fitbit.Portable.Tests
 {
+    using Fitbit.Api.Portable;
+
     [TestFixture]
     public class IntradayTimeSeriesTests
     {
@@ -19,19 +21,19 @@ namespace Fitbit.Portable.Tests
             DateTime expectedResult = new DateTime(2015, 3, 20, 0, 1, 0);
 
             string content = SampleDataHelper.GetContent("IntradayActivitiesCalories.json");
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 message.Method.Should().Be(HttpMethod.Get);
                 message.RequestUri.AbsoluteUri.Should().Be("https://api.fitbit.com/1/user/-/activities/calories/date/2015-03-20/1d.json");
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
-            var response = await fitbitClient.GetIntraDayTimeSeriesAsync(IntradayResourceType.CaloriesOut, new DateTime(2015, 3, 20), new TimeSpan(24, 0, 0));
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            IntradayData response = await fitbitClient.GetIntraDayTimeSeriesAsync(IntradayResourceType.CaloriesOut, new DateTime(2015, 3, 20), new TimeSpan(24, 0, 0));
 
             response.DataSet[1].Time.Should().Be(expectedResult);
             response.DataSet[1].METs.Should().Be("10");
@@ -44,18 +46,18 @@ namespace Fitbit.Portable.Tests
         public async Task GetIntraDayTimeSeriesCaloriesIntensityMetsAsync_ReturnsNullIfMissingDateTime()
         {
             string content = SampleDataHelper.GetContent("IntradayActivitiesCaloriesMissingDateTime.json");
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 message.Method.Should().Be(HttpMethod.Get);
                 message.RequestUri.AbsoluteUri.Should().Be("https://api.fitbit.com/1/user/-/activities/calories/date/2015-03-20/1d.json");
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
             IntradayData response = await fitbitClient.GetIntraDayTimeSeriesAsync(IntradayResourceType.CaloriesOut, new DateTime(2015, 3, 20), new TimeSpan(24, 0, 0));
 
             response.Should().Be(null);
@@ -68,19 +70,19 @@ namespace Fitbit.Portable.Tests
             DateTime expectedResult = new DateTime(2016, 3, 8, 0, 1, 0);
 
             string content = SampleDataHelper.GetContent("IntradayActivitiesSteps.json");
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 message.Method.Should().Be(HttpMethod.Get);
                 message.RequestUri.AbsoluteUri.Should().Be("https://api.fitbit.com/1/user/-/activities/steps/date/2016-03-08/1d.json");
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
-            var response = await fitbitClient.GetIntraDayTimeSeriesAsync(IntradayResourceType.Steps, new DateTime(2016, 3, 8), new TimeSpan(24, 0, 0));
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            IntradayData response = await fitbitClient.GetIntraDayTimeSeriesAsync(IntradayResourceType.Steps, new DateTime(2016, 3, 8), new TimeSpan(24, 0, 0));
 
             response.DataSet[1].Time.Should().Be(expectedResult);
             response.DataSet[1].Value.Should().Be("2");

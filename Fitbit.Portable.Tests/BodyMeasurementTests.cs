@@ -18,20 +18,20 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("GetBodyMeasurements.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/body/date/2014-09-27.json", message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetBodyMeasurementsAsync(new DateTime(2014, 9, 27));
+            BodyMeasurements response = await fitbitClient.GetBodyMeasurementsAsync(new DateTime(2014, 9, 27));
 
             ValidateBodyMeasurements(response);
         }
@@ -39,13 +39,13 @@ namespace Fitbit.Portable.Tests
         [Test] [Category("Portable")]
         public void GetBodyMeasurementsAsync_Errors()
         {
-            var responseMessage = Helper.CreateErrorResponse(HttpStatusCode.Unauthorized);
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Func<HttpResponseMessage> responseMessage = Helper.CreateErrorResponse(HttpStatusCode.Unauthorized);
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
             Func<Task<BodyMeasurements>> result = () => fitbitClient.GetBodyMeasurementsAsync(new DateTime(2014, 9, 27));
 
@@ -56,7 +56,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_BodyMeasurements()
         {
             string content = SampleDataHelper.GetContent("GetBodyMeasurements.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             BodyMeasurements bodyMeasurements = deserializer.Deserialize<BodyMeasurements>(content);
 

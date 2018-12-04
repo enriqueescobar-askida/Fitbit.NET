@@ -11,8 +11,8 @@ using NUnit.Framework;
 using Fitbit.Models;
 
 namespace Fitbit.Portable.Tests
-{        
-    [TestFixture] 
+{
+    [TestFixture]
     public class RemoveSubscriptionTests
     {
         [Test]
@@ -20,10 +20,10 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void DeleteSubscription_Correctly()
         {
-            var subId = "320";
-            var expectedUrl = @"https://api.fitbit.com/1/user/-/apiSubscriptions/"+subId+".json";
+            string subId = "320";
+            string expectedUrl = @"https://api.fitbit.com/1/user/-/apiSubscriptions/"+subId+".json";
 
-            var sut = this.SetupFitbitClient(null, expectedUrl, HttpMethod.Delete);
+            FitbitClient sut = this.SetupFitbitClient(null, expectedUrl, HttpMethod.Delete);
 
             //Any unexpected behavior will throw exception or fail on request checks (in handler)
             //Pass APICollectionType.user to delete subscriptions for all data sets
@@ -35,11 +35,11 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void DeleteSubscriptonFromSpecificCollection()
         {
-            var subId = "320";
-            var collection = APICollectionType.activities;
-            var expectedUrl = @"https://api.fitbit.com/1/user/-/"+ collection +@"/apiSubscriptions/" + subId + ".json";
+            string subId = "320";
+            APICollectionType collection = APICollectionType.activities;
+            string expectedUrl = @"https://api.fitbit.com/1/user/-/"+ collection +@"/apiSubscriptions/" + subId + ".json";
 
-            var sut = this.SetupFitbitClient(null, expectedUrl, HttpMethod.Delete);
+            FitbitClient sut = this.SetupFitbitClient(null, expectedUrl, HttpMethod.Delete);
 
             //Any unexpected behavior will throw exception or fail on request checks (in handler)
             sut.DeleteSubscriptionAsync(collection, subId).Wait();
@@ -48,17 +48,17 @@ namespace Fitbit.Portable.Tests
 
         private FitbitClient SetupFitbitClient(string contentPath, string url, HttpMethod expectedMethod, Action<HttpRequestMessage> additionalChecks = null)
         {
-            var content = string.Empty;
+            string content = string.Empty;
 
             if (contentPath != null)
                 content = SampleDataHelper.GetContent(contentPath);
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.NoContent) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(expectedMethod, message.Method);
                 Assert.AreEqual(url, message.RequestUri.AbsoluteUri);

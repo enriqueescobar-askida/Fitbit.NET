@@ -30,10 +30,10 @@ namespace Fitbit.Portable.Tests.Interceptors
         [Test]
         public void Throws_On_500()
         {
-            var cancellationToken = new CancellationToken();
-            var unsuccesfulResponse =
+            CancellationToken cancellationToken = new CancellationToken();
+            HttpResponseMessage unsuccesfulResponse =
                 fixture.Build<HttpResponseMessage>().With(r => r.StatusCode, HttpStatusCode.InternalServerError).Create();
-            var sut = fixture.Create<FitbitHttpErrorHandler>();
+            FitbitHttpErrorHandler sut = fixture.Create<FitbitHttpErrorHandler>();
 
             Assert.That(
                 new AsyncTestDelegate(async () => await sut.InterceptResponse(Task.FromResult(unsuccesfulResponse), cancellationToken, null)),
@@ -45,12 +45,12 @@ namespace Fitbit.Portable.Tests.Interceptors
         [Test]
         public async Task Proceeds_On_200()
         {
-            var cancellationToken = new CancellationToken();
-            var unsuccesfulResponse =
+            CancellationToken cancellationToken = new CancellationToken();
+            HttpResponseMessage unsuccesfulResponse =
                 fixture.Build<HttpResponseMessage>().With(r => r.StatusCode, HttpStatusCode.OK).Create();
-            var sut = fixture.Create<FitbitHttpErrorHandler>();
+            FitbitHttpErrorHandler sut = fixture.Create<FitbitHttpErrorHandler>();
 
-            var result = await sut.InterceptResponse(Task.FromResult(unsuccesfulResponse), cancellationToken, null);
+            HttpResponseMessage result = await sut.InterceptResponse(Task.FromResult(unsuccesfulResponse), cancellationToken, null);
 
             //A null response means the interceptor is letting the pipeline continue its normal flow.
             Assert.IsNull(result);

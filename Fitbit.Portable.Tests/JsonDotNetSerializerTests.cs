@@ -14,7 +14,7 @@ namespace Fitbit.Portable.Tests
             [JsonProperty("testproperty")]
             public string TestProperty { get; set; }
 
-            [JsonProperty("mydate")]  
+            [JsonProperty("mydate")]
             public DateTime MyDate { get; set; }
 
 
@@ -24,16 +24,16 @@ namespace Fitbit.Portable.Tests
         [Test] [Category("Portable")]
         public void DefaultValueCreated_String()
         {
-            var serializer = new JsonDotNetSerializer();
-            var defaultValue = serializer.Deserialize<TestClass>(string.Empty);
+            JsonDotNetSerializer serializer = new JsonDotNetSerializer();
+            TestClass defaultValue = serializer.Deserialize<TestClass>(string.Empty);
             Assert.AreEqual(default(TestClass), defaultValue);
         }
 
         [Test] [Category("Portable")]
         public void DefaultValueCreated_JToken()
         {
-            var serializer = new JsonDotNetSerializer();
-            var defaultValue = serializer.Deserialize<TestClass>((JToken)null);
+            JsonDotNetSerializer serializer = new JsonDotNetSerializer();
+            TestClass defaultValue = serializer.Deserialize<TestClass>((JToken)null);
             Assert.AreEqual(default(TestClass), defaultValue);
         }
 
@@ -41,8 +41,8 @@ namespace Fitbit.Portable.Tests
         public void NoRootValueCreated()
         {
             string data = "{\"testproperty\" : \"bob\" }";
-            var serializer = new JsonDotNetSerializer();
-            var value = serializer.Deserialize<TestClass>(data);
+            JsonDotNetSerializer serializer = new JsonDotNetSerializer();
+            TestClass value = serializer.Deserialize<TestClass>(data);
             Assert.IsNotNull(value);
             Assert.AreEqual("bob", value.TestProperty);
         }
@@ -51,31 +51,31 @@ namespace Fitbit.Portable.Tests
         public void RootPropertyValueCreated()
         {
             string data = "{\"testclass\" : {\"testproperty\" : \"bob\" } }";
-            var serializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer serializer = new JsonDotNetSerializer();
             serializer.RootProperty = "testclass";
-            var value = serializer.Deserialize<TestClass>(data);
+            TestClass value = serializer.Deserialize<TestClass>(data);
             Assert.IsNotNull(value);
             Assert.AreEqual("bob", value.TestProperty);
         }
 
-        [Test]  [Category("Portable")]  
+        [Test]  [Category("Portable")]
         public void DateParsingSuccess()
-        {  
-            string data = "{\"mydate\" : \"1970-01-01\" }";  
-            var serializer = new JsonDotNetSerializer();  
-            var value = serializer.Deserialize<TestClass>(data);  
-            Assert.IsNotNull(value);  
-            Assert.AreEqual(new DateTime(1970, 1, 1), value.MyDate);  
-        }  
-        
-        [Test]  [Category("Portable")]  
+        {
+            string data = "{\"mydate\" : \"1970-01-01\" }";
+            JsonDotNetSerializer serializer = new JsonDotNetSerializer();
+            TestClass value = serializer.Deserialize<TestClass>(data);
+            Assert.IsNotNull(value);
+            Assert.AreEqual(new DateTime(1970, 1, 1), value.MyDate);
+        }
+
+        [Test]  [Category("Portable")]
         public void DateParsingEmptySuccess()
-        {  
-            string data = "{\"mydate\" : \"\" }";  
-            var serializer = new JsonDotNetSerializer();  
-            var value = serializer.Deserialize<TestClass>(data);  
-            Assert.IsNotNull(value);  
-            Assert.AreEqual(DateTime.MinValue, value.MyDate);  
-        } 
+        {
+            string data = "{\"mydate\" : \"\" }";
+            JsonDotNetSerializer serializer = new JsonDotNetSerializer();
+            TestClass value = serializer.Deserialize<TestClass>(data);
+            Assert.IsNotNull(value);
+            Assert.AreEqual(DateTime.MinValue, value.MyDate);
+        }
     }
 }

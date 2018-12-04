@@ -23,17 +23,17 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("GetActivityLogsList.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) });
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/activities/list.json?afterDate=2017-01-01&sort=asc&limit=20&offset=0", message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetActivityLogsListAsync(null, new DateTime(2017, 1, 1));
+            ActivityLogsList response = await fitbitClient.GetActivityLogsListAsync(null, new DateTime(2017, 1, 1));
             ValidateActivity(response.Activities);
         }
 
@@ -41,13 +41,13 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void GetActivityLogsListAsync_Errors()
         {
-            var responseMessage = Helper.CreateErrorResponse(HttpStatusCode.BadRequest);
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Func<HttpResponseMessage> responseMessage = Helper.CreateErrorResponse(HttpStatusCode.BadRequest);
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
             Func<Task<ActivityLogsList>> result = () => fitbitClient.GetActivityLogsListAsync(null, new DateTime(2017, 1, 1));
 
@@ -59,8 +59,8 @@ namespace Fitbit.Portable.Tests
         public void ActivityLogsList_JsonParse_Errors()
         {
             string content = SampleDataHelper.GetContent("GetActivityLogsList2.json");
-            var settings = new JsonSerializerSettings() { DateParseHandling = DateParseHandling.DateTimeOffset };
-            var serializer = new JsonDotNetSerializer(settings) { RootProperty = "activities" };
+            JsonSerializerSettings settings = new JsonSerializerSettings() { DateParseHandling = DateParseHandling.DateTimeOffset };
+            JsonDotNetSerializer serializer = new JsonDotNetSerializer(settings) { RootProperty = "activities" };
 
             try
             {
@@ -73,7 +73,7 @@ namespace Fitbit.Portable.Tests
             {
                 Assert.Fail();
             }
-            
+
         }
 
         [Test]
@@ -81,7 +81,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_ActivityLogsList()
         {
             string content = SampleDataHelper.GetContent("GetActivityLogsList.json");
-            var settings = new JsonSerializerSettings { DateParseHandling = DateParseHandling.DateTimeOffset };
+            JsonSerializerSettings settings = new JsonSerializerSettings { DateParseHandling = DateParseHandling.DateTimeOffset };
             ActivityLogsList logList = JsonConvert.DeserializeObject<ActivityLogsList>(content, settings);
 
             ValidateActivity(logList.Activities);
@@ -91,7 +91,7 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public async Task Get_Multiple_ActivityLogsList()
         {
-            var response = await GetActivityLogsList2(new DateTime(2017, 9, 4));
+            ActivityLogsList response = await GetActivityLogsList2(new DateTime(2017, 9, 4));
             response.Activities.Count.Should().Be(2);
         }
 
@@ -99,7 +99,7 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public async Task Check_TimeZone_ActivityLogsList()
         {
-            var response = await GetActivityLogsList2(new DateTime(2017, 9, 4));
+            ActivityLogsList response = await GetActivityLogsList2(new DateTime(2017, 9, 4));
             const string origOffset = "-07:00:00";
 
             response.Activities[0].StartTime.Offset.ToString().Should().Be(origOffset);
@@ -109,23 +109,23 @@ namespace Fitbit.Portable.Tests
         private async Task<ActivityLogsList> GetActivityLogsList2(DateTime date)
         {
             string content = SampleDataHelper.GetContent("GetActivityLogsList2.json");
-            var responseMessage = new Func<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) });
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() => new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/activities/list.json?afterDate=2017-09-04&sort=asc&limit=20&offset=0", message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetActivityLogsListAsync(date);
+            ActivityLogsList response = await fitbitClient.GetActivityLogsListAsync(date);
             return response;
         }
 
         private void ValidateActivity(List<Activities> stats)
         {
-            var stat = stats.First();
+            Activities stat = stats.First();
 
             stat.ActiveDuration.Should().Be(2764000);
             stat.ActivityLevel.First().Minutes.Should().Be(0);
@@ -137,14 +137,14 @@ namespace Fitbit.Portable.Tests
             stat.Duration.Should().Be(2764000);
             stat.ElevationGain.Should().Be(3.048);
 
-            var zone1 = stat.HeartRateZones[0];
+            HeartRateZone zone1 = stat.HeartRateZones[0];
             zone1.CaloriesOut.Should().Be(default(double));
             zone1.Max.Should().Be(95);
             zone1.Min.Should().Be(30);
             zone1.Minutes.Should().Be(3);
             zone1.Name.Should().Be("Out of Range");
 
-            var zone4 = stat.HeartRateZones[3];
+            HeartRateZone zone4 = stat.HeartRateZones[3];
             zone4.CaloriesOut.Should().Be(default(double));
             zone4.Max.Should().Be(220);
             zone4.Min.Should().Be(162);

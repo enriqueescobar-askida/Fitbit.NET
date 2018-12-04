@@ -18,11 +18,11 @@ namespace Fitbit.Api.Portable
 
             bodyContent = StripSignatureString(bodyContent);
 
-            var ser = new XmlSerializer(typeof(UpdatedResourceList), "");
+            XmlSerializer ser = new XmlSerializer(typeof(UpdatedResourceList), "");
 
-            using (var stringReader = new StringReader(bodyContent))
+            using (StringReader stringReader = new StringReader(bodyContent))
             {
-                var deserializedBody = (UpdatedResourceList)ser.Deserialize(stringReader);
+                UpdatedResourceList deserializedBody = (UpdatedResourceList)ser.Deserialize(stringReader);
                 Debug.WriteLine(deserializedBody.Resources[0]);
                 return deserializedBody.Resources;
             }

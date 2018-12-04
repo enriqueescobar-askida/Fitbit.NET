@@ -18,20 +18,20 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("TimeSeries-ActivitiesDistance.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/activities/distance/date/2014-09-07/1d.json", message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
-            
-            var response = await fitbitClient.GetTimeSeriesAsync(TimeSeriesResourceType.Distance, new DateTime(2014, 9, 7), DateRangePeriod.OneDay);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+
+            TimeSeriesDataList response = await fitbitClient.GetTimeSeriesAsync(TimeSeriesResourceType.Distance, new DateTime(2014, 9, 7), DateRangePeriod.OneDay);
 
             ValidateDataList(response);
         }
@@ -41,21 +41,21 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("TimeSeries-ActivitiesDistance.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/activities/distance/date/2014-09-07/2014-09-14.json", message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
-            
-            var response = await fitbitClient.GetTimeSeriesAsync(TimeSeriesResourceType.Distance, new DateTime(2014, 9, 7), new DateTime(2014, 9, 14));
-            
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+
+            TimeSeriesDataList response = await fitbitClient.GetTimeSeriesAsync(TimeSeriesResourceType.Distance, new DateTime(2014, 9, 7), new DateTime(2014, 9, 14));
+
             ValidateDataList(response);
         }
 
@@ -63,7 +63,7 @@ namespace Fitbit.Portable.Tests
         //TODO: fix [ExpectedException(typeof(ArgumentNullException))]
         public void Serializer_Passed_Invalid_Data_To_Serialize()
         {
-            var serialiser = new JsonDotNetSerializer();
+            JsonDotNetSerializer serialiser = new JsonDotNetSerializer();
             Assert.That(
                 new TestDelegate(()=> serialiser.GetTimeSeriesDataList(string.Empty)),
                 Throws.ArgumentNullException
@@ -74,12 +74,12 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Activities_Distance()
         {
             string content = SampleDataHelper.GetContent("TimeSeries-ActivitiesDistance.json");
-            var deserializer = new JsonDotNetSerializer
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer
             {
                 RootProperty = TimeSeriesResourceType.Distance.ToTimeSeriesProperty()
             };
 
-            var result = deserializer.GetTimeSeriesDataList(content);
+            TimeSeriesDataList result = deserializer.GetTimeSeriesDataList(content);
             ValidateDataList(result);
         }
 
@@ -89,7 +89,7 @@ namespace Fitbit.Portable.Tests
             Assert.IsNotNull(dataList.DataList);
             Assert.AreEqual(8, dataList.DataList.Count);
 
-            var item = dataList.DataList.First();
+            TimeSeriesDataList.Data item = dataList.DataList.First();
             dataList.DataList.Remove(item);
 
             Assert.AreEqual("1.0", item.Value);

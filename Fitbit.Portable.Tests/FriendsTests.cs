@@ -21,20 +21,20 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("GetFriends-Multiple.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/friends.json", message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetFriendsAsync();
+            List<UserProfile> response = await fitbitClient.GetFriendsAsync();
 
             Assert.AreEqual(3, response.Count);
             ValidateMultipleFriends(response);
@@ -46,20 +46,20 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("GetFriends-Single.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/friends.json", message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
-            var response = await fitbitClient.GetFriendsAsync();
+            List<UserProfile> response = await fitbitClient.GetFriendsAsync();
 
             ValidateSingleFriend(response);
         }
@@ -68,13 +68,13 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void GetFriendsAsync_Failure_Errors()
         {
-            var responseMessage = Helper.CreateErrorResponse();
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Func<HttpResponseMessage> responseMessage = Helper.CreateErrorResponse();
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
 
             Func<Task<List<UserProfile>>> result = () => fitbitClient.GetFriendsAsync();
 
@@ -85,7 +85,7 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void Throws_Exception_With_Empty_String()
         {
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
             Assert.That(
                 new TestDelegate(() => deserializer.GetFriends(string.Empty)),
                 Throws.ArgumentNullException
@@ -96,8 +96,8 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void Throws_Exception_With_Null_String()
         {
-            var deserializer = new JsonDotNetSerializer();
-            
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
+
             Assert.That(
                 new TestDelegate(() => deserializer.GetFriends(null)),
                 Throws.ArgumentNullException
@@ -108,7 +108,7 @@ namespace Fitbit.Portable.Tests
         [Category("Portable")]
         public void Throws_Exception_With_WhiteSpace()
         {
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
             Assert.That(
                 new TestDelegate(() => deserializer.GetFriends("         ")),
                 Throws.ArgumentNullException
@@ -120,7 +120,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Friends_Multiple()
         {
             string content = SampleDataHelper.GetContent("GetFriends-Multiple.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             List<UserProfile> friends = deserializer.GetFriends(content);
 
@@ -135,7 +135,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Friends_Single()
         {
             string content = SampleDataHelper.GetContent("GetFriends-Single.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             List<UserProfile> friends = deserializer.GetFriends(content);
 
@@ -148,7 +148,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Friends_Single_NullDateOfBirth()
         {
             string content = SampleDataHelper.GetContent("GetFriends-Single-2.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             List<UserProfile> friends = deserializer.GetFriends(content);
 
@@ -161,7 +161,7 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Friends_None()
         {
             string content = SampleDataHelper.GetContent("GetFriends-None.json");
-            var deserializer = new JsonDotNetSerializer();
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
 
             List<UserProfile> friends = deserializer.GetFriends(content);
 
@@ -171,7 +171,7 @@ namespace Fitbit.Portable.Tests
 
         private void ValidateMultipleFriends(List<UserProfile> friends)
         {
-            var friend = friends.First();
+            UserProfile friend = friends.First();
 
             Assert.AreEqual("http://www.fitbit.com/images/profile/defaultProfile_100_male.gif", friend.Avatar);
             Assert.AreEqual("http://www.fitbit.com/images/profile/defaultProfile_150_male.gif", friend.Avatar150);
@@ -239,7 +239,7 @@ namespace Fitbit.Portable.Tests
         {
             Assert.IsTrue(friends.Count == 1);
 
-            var friend = friends.First();
+            UserProfile friend = friends.First();
             Assert.AreEqual("http://www.fitbit.com/images/profile/defaultProfile_100_female.gif", friend.Avatar);
             Assert.AreEqual("http://www.fitbit.com/images/profile/defaultProfile_150_female.gif", friend.Avatar150);
             Assert.AreEqual("GB", friend.Country);
@@ -264,7 +264,7 @@ namespace Fitbit.Portable.Tests
         {
             Assert.IsTrue(friends.Count == 1);
 
-            var friend = friends.First();
+            UserProfile friend = friends.First();
             Assert.AreEqual("http://www.fitbit.com/images/profile/defaultProfile_100_female.gif", friend.Avatar);
             Assert.AreEqual("http://www.fitbit.com/images/profile/defaultProfile_150_female.gif", friend.Avatar150);
             Assert.AreEqual("GB", friend.Country);

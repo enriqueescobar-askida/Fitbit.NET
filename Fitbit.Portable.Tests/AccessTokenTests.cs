@@ -17,8 +17,8 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("AccessToken.json");
 
-            var deserializer = new JsonDotNetSerializer();
-            var result = deserializer.Deserialize<OAuth2AccessToken>(content);
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer();
+            OAuth2AccessToken result = deserializer.Deserialize<OAuth2AccessToken>(content);
 
             Validate(result);
         }
@@ -29,7 +29,7 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("AccessToken.json");
 
-            var result = OAuth2Helper.ParseAccessTokenResponse(content);
+            OAuth2AccessToken result = OAuth2Helper.ParseAccessTokenResponse(content);
 
             Validate(result);
         }
@@ -57,9 +57,9 @@ namespace Fitbit.Portable.Tests
         public void AccessToken_Knows_Token_Is_Valid()
         {
             //arrenge
-            var fixture = new Fixture();
+            Fixture fixture = new Fixture();
             //Create a token whose expiration date is in the future
-            var tokenWithFutureExpirationDate = fixture.Build<OAuth2AccessToken>()
+            OAuth2AccessToken tokenWithFutureExpirationDate = fixture.Build<OAuth2AccessToken>()
                                                 .With(t => t.UtcExpirationDate, DateTime.UtcNow.AddHours(1.0))
                                                 .Create();
 
@@ -72,9 +72,9 @@ namespace Fitbit.Portable.Tests
         public void AccessToken_Knows_Token_Is_Stale()
         {
             //arrenge
-            var fixture = new Fixture();
+            Fixture fixture = new Fixture();
             //Create a token whose expiration date is in the future
-            var tokenWithFutureExpirationDate = fixture.Build<OAuth2AccessToken>()
+            OAuth2AccessToken tokenWithFutureExpirationDate = fixture.Build<OAuth2AccessToken>()
                                                 .With(t => t.UtcExpirationDate, DateTime.UtcNow.AddHours(-1.0))
                                                 .Create();
 
@@ -87,9 +87,9 @@ namespace Fitbit.Portable.Tests
         public void AccessToken_With_No_Expiration_Time_Throws_On_IsFresh()
         {
             //arrenge
-            var fixture = new Fixture();
+            Fixture fixture = new Fixture();
             //Create a token with no Expiration time
-            var sut = new OAuth2AccessToken();
+            OAuth2AccessToken sut = new OAuth2AccessToken();
 
             Assert.Throws<InvalidOperationException>(() => sut.IsFresh());
         }

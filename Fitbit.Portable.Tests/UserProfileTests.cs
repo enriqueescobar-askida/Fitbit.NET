@@ -19,20 +19,20 @@ namespace Fitbit.Portable.Tests
         {
             string content = SampleDataHelper.GetContent("UserProfile.json");
 
-            var responseMessage = new Func<HttpResponseMessage>(() =>
+            Func<HttpResponseMessage> responseMessage = new Func<HttpResponseMessage>(() =>
             {
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(content) };
             });
 
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
                 Assert.AreEqual("https://api.fitbit.com/1/user/-/profile.json", message.RequestUri.AbsoluteUri);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
-            
-            var response = await fitbitClient.GetUserProfileAsync();
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+
+            UserProfile response = await fitbitClient.GetUserProfileAsync();
 
             ValidateSingleUserProfile(response);
         }
@@ -40,14 +40,14 @@ namespace Fitbit.Portable.Tests
         [Test] [Category("Portable")]
         public void GetUserProfileAsync_Failure_Errors()
         {
-            var responseMessage = Helper.CreateErrorResponse();
-            var verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
+            Func<HttpResponseMessage> responseMessage = Helper.CreateErrorResponse();
+            Action<HttpRequestMessage, CancellationToken> verification = new Action<HttpRequestMessage, CancellationToken>((message, token) =>
             {
                 Assert.AreEqual(HttpMethod.Get, message.Method);
             });
 
-            var fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
-            
+            FitbitClient fitbitClient = Helper.CreateFitbitClient(responseMessage, verification);
+
             Func<Task<List<UserProfile>>> result = () => fitbitClient.GetFriendsAsync();
 
             result.ShouldThrow<FitbitException>();
@@ -57,9 +57,9 @@ namespace Fitbit.Portable.Tests
         public void Can_Deserialize_Profile()
         {
             string content = SampleDataHelper.GetContent("UserProfile.json");
-            var deserializer = new JsonDotNetSerializer {RootProperty = "user"};
+            JsonDotNetSerializer deserializer = new JsonDotNetSerializer {RootProperty = "user"};
 
-            var result = deserializer.Deserialize<UserProfile>(content);
+            UserProfile result = deserializer.Deserialize<UserProfile>(content);
 
             ValidateSingleUserProfile(result);
         }

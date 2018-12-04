@@ -19,7 +19,7 @@ namespace Fitbit.Portable.Tests
         /// <returns></returns>
         public static FitbitClient CreateFitbitClient(Func<HttpResponseMessage> response, Action<HttpRequestMessage, CancellationToken> verificationCallback)
         {
-            var handler = new Mock<HttpMessageHandler>();
+            Mock<HttpMessageHandler> handler = new Mock<HttpMessageHandler>();
             handler.Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
                 .Returns(Task<HttpResponseMessage>.Factory.StartNew(response))
@@ -51,7 +51,7 @@ namespace Fitbit.Portable.Tests
             }
 
             string content = SampleDataHelper.GetContent(errorFilePath);
-            var responseMessage =
+            Func<HttpResponseMessage> responseMessage =
                 new Func<HttpResponseMessage>(() => new HttpResponseMessage(statusCode) {Content = new StringContent(content)});
             return responseMessage;
         }

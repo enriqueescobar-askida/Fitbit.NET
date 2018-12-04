@@ -12,7 +12,7 @@ namespace Fitbit.Api.Portable.Models
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var heartActivitiesIntraday = value as HeartActivitiesIntraday;
+            HeartActivitiesIntraday heartActivitiesIntraday = value as HeartActivitiesIntraday;
 
             //{
             writer.WriteStartObject();
@@ -30,7 +30,7 @@ namespace Fitbit.Api.Portable.Models
 
             writer.WritePropertyName("Dataset");
             writer.WriteStartArray();
-            foreach (var datasetInverval in heartActivitiesIntraday.Dataset)
+            foreach (DatasetInterval datasetInverval in heartActivitiesIntraday.Dataset)
             {
                 // "Time" : "2008-09-22T14:01:54.9571247Z"
                 writer.WritePropertyName("Time");
@@ -51,7 +51,7 @@ namespace Fitbit.Api.Portable.Models
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             JObject jsonObject = JObject.Load(reader);
-            var properties = jsonObject.Properties().ToList();
+            List<JProperty> properties = jsonObject.Properties().ToList();
 
             HeartActivitiesIntraday result = new HeartActivitiesIntraday();
             result.DatasetInterval = Convert.ToInt32(jsonObject["DatasetInterval"]);

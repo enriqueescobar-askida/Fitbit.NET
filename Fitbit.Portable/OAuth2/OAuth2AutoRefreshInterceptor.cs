@@ -1,17 +1,19 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Fitbit.Models;
-
-namespace Fitbit.Api.Portable.OAuth2
+﻿namespace Fitbit.Api.Portable.OAuth2
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Fitbit.Models;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     /// <summary>
     /// An Http interceptor that intercepts "stale token" responses and invokes the Token Manager of the FitbitClient to get a new token.
     /// </summary>
@@ -28,7 +30,7 @@ namespace Fitbit.Api.Portable.OAuth2
         {
             if (response.Result.StatusCode == System.Net.HttpStatusCode.Unauthorized)//Unauthorized, then there is a chance token is stale
             {
-                var responseBody = await response.Result.Content.ReadAsStringAsync();
+                string responseBody = await response.Result.Content.ReadAsStringAsync();
 
                 if (IsTokenStale(responseBody))
                 {
@@ -38,15 +40,15 @@ namespace Fitbit.Api.Portable.OAuth2
                     //Only retry the first time.
                     if (!response.Result.RequestMessage.Headers.Contains(CUSTOM_HEADER))
                     {
-                        var clonedRequest = await response.Result.RequestMessage.CloneAsync();
+                        HttpRequestMessage clonedRequest = await response.Result.RequestMessage.CloneAsync();
                         clonedRequest.Headers.Add(CUSTOM_HEADER, CUSTOM_HEADER);
                         return  await Client.HttpClient.SendAsync(clonedRequest, cancellationToken);
                     }
                     else if (response.Result.RequestMessage.Headers.Contains(CUSTOM_HEADER))
                     {
-                        throw new FitbitTokenException(response.Result, message: $"In interceptor {nameof(OAuth2AutoRefreshInterceptor)} inside method {nameof(InterceptResponse)} we received an unexpected stale token response - during the retry for a call whose token we just refreshed {(int)response.Result.StatusCode}");   
+                        throw new FitbitTokenException(response.Result, message: $"In interceptor {nameof(OAuth2AutoRefreshInterceptor)} inside method {nameof(InterceptResponse)} we received an unexpected stale token response - during the retry for a call whose token we just refreshed {(int)response.Result.StatusCode}");
                     }
-                }                
+                }
             }
 
             //let the pipeline continue
@@ -55,7 +57,7 @@ namespace Fitbit.Api.Portable.OAuth2
 
         private bool IsTokenStale(string responseBody)
         {
-            var errors = new JsonDotNetSerializer().ParseErrors(responseBody);
+            List<ApiError> errors = new JsonDotNetSerializer().ParseErrors(responseBody);
             return errors.Any(error => error.ErrorType == "expired_token");
         }
     }
