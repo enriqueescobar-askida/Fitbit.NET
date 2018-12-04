@@ -1,17 +1,19 @@
-﻿using System;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Fitbit.Api.Portable;
-using Fitbit.Api.Portable.Models;
-using FluentAssertions;
-using NUnit.Framework;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Fitbit.Api.Portable;
+    using Fitbit.Api.Portable.Models;
     using Fitbit.Models;
+
+    using FluentAssertions;
+
+    using NUnit.Framework;
 
     [TestFixture]
     public class SleepTests

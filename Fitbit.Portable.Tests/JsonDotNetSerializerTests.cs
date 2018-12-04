@@ -1,11 +1,14 @@
-﻿using System;
-using Fitbit.Api.Portable;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using NUnit.Framework;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System;
+
+    using Fitbit.Api.Portable;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class JsonDotNetSerializerTests
     {

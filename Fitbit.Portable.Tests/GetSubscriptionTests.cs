@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Fitbit.Api.Portable;
-using Fitbit.Models;
-using NUnit.Framework;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Fitbit.Api.Portable;
+    using Fitbit.Models;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class GetSubscriptionTests
     {

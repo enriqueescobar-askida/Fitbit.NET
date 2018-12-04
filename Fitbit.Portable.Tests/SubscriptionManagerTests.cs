@@ -1,19 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using Fitbit.Api.Portable;
-using Fitbit.Api.Portable.Models;
-using Fitbit.Models;
-using Fitbit.Portable.Tests.Helpers;
-using NUnit.Framework;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using Fitbit.Api.Portable;
+    using Fitbit.Api.Portable.Models;
+    using Fitbit.Models;
+    using Fitbit.Portable.Tests.Helpers;
+
+    using NUnit.Framework;
+
     public class SubscriptionManagerTests
     {
         [Test]

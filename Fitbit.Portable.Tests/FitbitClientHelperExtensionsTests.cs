@@ -1,9 +1,11 @@
-﻿using System;
-using Fitbit.Api.Portable;
-using NUnit.Framework;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System;
+
+    using Fitbit.Api.Portable;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class FitbitClientHelperExtensionsTests
     {

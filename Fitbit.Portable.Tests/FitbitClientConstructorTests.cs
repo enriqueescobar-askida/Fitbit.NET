@@ -1,15 +1,17 @@
-﻿using Fitbit.Api.Portable;
-using Fitbit.Api.Portable.OAuth2;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Http;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using Fitbit.Api.Portable;
+    using Fitbit.Api.Portable.OAuth2;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class FitbitClientConstructorTests
     {

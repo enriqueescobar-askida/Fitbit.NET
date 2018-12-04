@@ -1,10 +1,11 @@
-﻿using Fitbit.Api.Portable;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Fitbit.Api.Portable;
+
     public class InterceptorCounter : IFitbitInterceptor
     {
         public int RequestCount = 0;

@@ -1,7 +1,7 @@
-﻿using System.IO;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System.IO;
+
     /// <summary>
     /// In order for this class to work with SampleData/Json files, the file must be available in bin/debug/SampleData.
     /// To do this, go to the properties of the needed file and change "Copy To Output Directory" to "Copy If Newer"

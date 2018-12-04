@@ -1,9 +1,11 @@
-﻿using System;
-using Fitbit.Models;
-using NUnit.Framework;
-
-namespace Fitbit.Portable.Tests.Models
+﻿namespace Fitbit.Portable.Tests.Models
 {
+    using System;
+
+    using Fitbit.Models;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class FatLogTests
     {

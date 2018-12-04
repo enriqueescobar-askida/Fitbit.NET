@@ -1,11 +1,11 @@
-﻿using System.Net;
-
-namespace Fitbit.Portable.Tests.Helpers
+﻿namespace Fitbit.Portable.Tests.Helpers
 {
-    using Fitbit.Api.Portable;
+    using System.Net;
     using System.Net.Http;
     using System.Threading;
     using System.Threading.Tasks;
+
+    using Fitbit.Api.Portable;
 
     public class ResponseFaker : IFitbitInterceptor
     {

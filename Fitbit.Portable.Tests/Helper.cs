@@ -1,14 +1,16 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Fitbit.Api.Portable;
-using Moq;
-using Moq.Protected;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System;
+    using System.Net;
+    using System.Net.Http;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Fitbit.Api.Portable;
+
+    using Moq;
+    using Moq.Protected;
+
     public static class Helper
     {
         /// <summary>

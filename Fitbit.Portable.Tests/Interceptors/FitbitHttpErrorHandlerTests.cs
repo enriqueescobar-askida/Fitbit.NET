@@ -1,20 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Fitbit.Api.Portable;
-using Fitbit.Api.Portable.Interceptors;
-using NUnit.Framework;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-
-namespace Fitbit.Portable.Tests.Interceptors
+﻿namespace Fitbit.Portable.Tests.Interceptors
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Fitbit.Api.Portable;
+    using Fitbit.Api.Portable.Interceptors;
+
+    using NUnit.Framework;
+
+    using Ploeh.AutoFixture;
+    using Ploeh.AutoFixture.Kernel;
+
     [TestFixture]
     public class FitbitHttpErrorHandlerTests
     {

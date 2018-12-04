@@ -1,13 +1,17 @@
-﻿using System;
-using System.Diagnostics;
-using Fitbit.Api.Portable;
-using Fitbit.Api.Portable.OAuth2;
-using FluentAssertions;
-using NUnit.Framework;
-using Ploeh.AutoFixture;
-
-namespace Fitbit.Portable.Tests
+﻿namespace Fitbit.Portable.Tests
 {
+    using System;
+    using System.Diagnostics;
+
+    using Fitbit.Api.Portable;
+    using Fitbit.Api.Portable.OAuth2;
+
+    using FluentAssertions;
+
+    using NUnit.Framework;
+
+    using Ploeh.AutoFixture;
+
     [TestFixture]
     public class AccessTokenTests
     {
