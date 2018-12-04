@@ -1,9 +1,10 @@
-﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     internal class JsonDotNetSerializer
     {
         private readonly JsonSerializer _jsonSerializer;

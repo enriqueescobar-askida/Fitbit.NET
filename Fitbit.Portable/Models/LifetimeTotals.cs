@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
-
 namespace Fitbit.Models
 {
+    using Newtonsoft.Json;
+
     public class LifetimeTotals
     {
         [JsonProperty("caloriesOut")]

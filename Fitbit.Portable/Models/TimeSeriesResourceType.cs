@@ -1,7 +1,7 @@
-﻿using Fitbit.Api.Portable;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using Fitbit.Api.Portable;
+
     /// <summary>
     /// All time series types that can be queried from fitbit
     /// </summary>
@@ -88,6 +88,6 @@ namespace Fitbit.Models
         [StringValue("/body/bmi")]
         BMI,
         [StringValue("/body/fat")]
-        Fat        
-    }   
+        Fat
+    }
 }

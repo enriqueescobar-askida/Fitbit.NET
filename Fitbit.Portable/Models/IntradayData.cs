@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using System;
+    using System.Collections.Generic;
+
     public class IntradayDataValues
     {
         public DateTime Time { get; set; }

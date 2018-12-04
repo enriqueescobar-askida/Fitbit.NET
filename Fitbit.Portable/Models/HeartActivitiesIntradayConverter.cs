@@ -1,13 +1,15 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Fitbit.Models;
-using Newtonsoft.Json.Linq;
-
-namespace Fitbit.Api.Portable.Models
+﻿namespace Fitbit.Api.Portable.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using Fitbit.Models;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     public class HeartActivitiesIntradayConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

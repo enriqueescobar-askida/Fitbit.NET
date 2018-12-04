@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Serialization;
-using Fitbit.Models;
-
-namespace Fitbit.Api.Portable.Models
+﻿namespace Fitbit.Api.Portable.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Xml.Serialization;
+
+    using Fitbit.Models;
+
     [XmlRoot("updates")]
     public class UpdatedResourceList
     {

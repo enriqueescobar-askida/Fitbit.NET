@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using Fitbit.Models;
-using System;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+    using System.Net.Http;
+
+    using Fitbit.Models;
+
     public class FitbitRequestException : FitbitException
     {
         public HttpResponseMessage Response { get; set; }

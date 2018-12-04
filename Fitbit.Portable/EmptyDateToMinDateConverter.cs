@@ -1,8 +1,9 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System;
+
+    using Newtonsoft.Json;
+
     internal class EmptyDateToMinDateConverter : JsonConverter
     {
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)

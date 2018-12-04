@@ -1,17 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Fitbit.Api.Portable.OAuth2;
-using System.Net.Http.Headers;
-using Fitbit.Api.Portable.Models;
-using Fitbit.Models;
-using Newtonsoft.Json;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Threading.Tasks;
+
+    using Fitbit.Api.Portable.Models;
+    using Fitbit.Api.Portable.OAuth2;
+    using Fitbit.Models;
+
+    using Newtonsoft.Json;
+
     public class FitbitClient : IFitbitClient
     {
         public FitbitAppCredentials AppCredentials { get; private set; }
@@ -214,7 +216,7 @@ namespace Fitbit.Api.Portable
         #region  Sleep
 
         /// <summary>
-        /// Requests the sleep data for the specified date for the logged in user 
+        /// Requests the sleep data for the specified date for the logged in user
         /// NOTE: This is for the V1 of the sleep api which is now Deprecated
         /// </summary>
         /// <param name="sleepDate"></param>
@@ -273,7 +275,7 @@ namespace Fitbit.Api.Portable
 
 
         /// <summary>
-        /// The Get Sleep Logs List endpoint returns a list of a user's sleep logs (including naps) 
+        /// The Get Sleep Logs List endpoint returns a list of a user's sleep logs (including naps)
         /// before or after a given day with offset, limit, and sort order.
         /// </summary>
         /// <param name="dateToList">	The date in the format yyyy-MM-ddTHH:mm:ss. Only yyyy-MM-dd is required. Set sort to desc when using beforeDate.</param>
@@ -417,7 +419,7 @@ namespace Fitbit.Api.Portable
         }
 
         /// <summary>
-        /// Requests the specified <see cref="TimeSeriesResourceType"/> for the date range and user specified 
+        /// Requests the specified <see cref="TimeSeriesResourceType"/> for the date range and user specified
         /// </summary>
         /// <param name="timeSeriesResourceType"></param>
         /// <param name="endDate"></param>
@@ -1036,7 +1038,7 @@ namespace Fitbit.Api.Portable
         }
 
         #endregion
-        
+
         #region HeartRateIntraday
 
         private async Task<HeartActivitiesIntraday> ProcessHeartRateIntradayTimeSeries(DateTime date, string url)
@@ -1113,7 +1115,7 @@ namespace Fitbit.Api.Portable
         {
             if (!response.IsSuccessStatusCode)
             {
-                // assumption is error response from fitbit in the 4xx range  
+                // assumption is error response from fitbit in the 4xx range
                 List<ApiError> errors = new JsonDotNetSerializer().ParseErrors(await response.Content.ReadAsStringAsync());
 
                 // rate limit hit

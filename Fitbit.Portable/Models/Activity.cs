@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using System.Collections.Generic;
+
     public class Activity
     {
         public ActivitySummary Summary { get; set; }

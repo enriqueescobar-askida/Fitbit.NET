@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Fitbit.Api.Portable.Models;
-using Fitbit.Models;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Fitbit.Api.Portable.Models;
+    using Fitbit.Models;
+
     public interface IFitbitClient
     {
         Task<Activity> GetDayActivityAsync(DateTime activityDate, string encodedUserId = default(string));

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net.Http;
-using Fitbit.Models;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System.Collections.Generic;
+    using System.Net.Http;
+
+    using Fitbit.Models;
+
     public class FitbitTokenException : FitbitRequestException
     {
         public FitbitTokenException(HttpResponseMessage response, IEnumerable<ApiError> errors = null, string message = default(string))

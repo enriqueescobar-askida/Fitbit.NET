@@ -1,7 +1,7 @@
-﻿using Fitbit.Api.Portable;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using Fitbit.Api.Portable;
+
     public enum IntradayResourceType
     {
         // StringEnum implementation: http://stackoverflow.com/questions/424366/c-sharp-string-enums

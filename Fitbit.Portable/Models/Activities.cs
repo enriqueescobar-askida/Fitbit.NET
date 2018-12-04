@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using Fitbit.Models;
-using Newtonsoft.Json;
-
-namespace Fitbit.Api.Portable.Models
+﻿namespace Fitbit.Api.Portable.Models
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Fitbit.Models;
+
+    using Newtonsoft.Json;
+
     public class Activities
     {
         [JsonProperty(PropertyName = "activeDuration")]

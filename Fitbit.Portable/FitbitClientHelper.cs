@@ -1,9 +1,10 @@
-﻿using System;
-using Fitbit.Api.Portable.Models;
-using Fitbit.Models;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System;
+
+    using Fitbit.Api.Portable.Models;
+    using Fitbit.Models;
+
     internal static class FitbitClientExtensions
     {
         internal static void ProcessSleepData(SleepData sleepData)

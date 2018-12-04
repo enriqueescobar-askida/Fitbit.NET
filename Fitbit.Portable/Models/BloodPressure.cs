@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using System;
+
     public class BloodPressure
     {
         public int Diastolic { get; set; }

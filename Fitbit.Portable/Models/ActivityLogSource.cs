@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Newtonsoft.Json;
-
-namespace Fitbit.Api.Portable.Models
+﻿namespace Fitbit.Api.Portable.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using Newtonsoft.Json;
+
     public class ActivityLogSource
     {
         [JsonProperty(PropertyName = "id")]

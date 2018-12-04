@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Fitbit.Api.Portable.Models;
-using Fitbit.Models;
-using Newtonsoft.Json.Linq;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Fitbit.Api.Portable.Models;
+    using Fitbit.Models;
+
+    using Newtonsoft.Json.Linq;
+
     internal static class JsonDotNetSerializerExtensions
     {
         /// <summary>
@@ -81,7 +83,7 @@ namespace Fitbit.Api.Portable
 
             serializer.RootProperty = "user";
             JToken friends = JToken.Parse(friendsJson)["friends"];
-            return friends.Children().Select(serializer.Deserialize<UserProfile>).ToList();           
+            return friends.Children().Select(serializer.Deserialize<UserProfile>).ToList();
         }
 
 
@@ -216,7 +218,7 @@ namespace Fitbit.Api.Portable
 
             JToken parsedJToken = JToken.Parse(intradayDataJson);
 
-            // need to parse the date first  
+            // need to parse the date first
             JToken date;
             try
             {

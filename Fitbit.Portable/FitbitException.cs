@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using Fitbit.Models;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+
+    using Fitbit.Models;
+
     public class FitbitException : Exception
     {
         public List<ApiError> ApiErrors { get; set; }

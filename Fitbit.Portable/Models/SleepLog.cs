@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Fitbit.Models;
-
-namespace Fitbit.Api.Portable.Models
+﻿namespace Fitbit.Api.Portable.Models
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Fitbit.Models;
+
     public class SleepLog
     {
         public int AwakeningsCount { get; set; }

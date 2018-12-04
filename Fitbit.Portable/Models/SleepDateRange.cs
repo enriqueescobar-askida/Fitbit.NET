@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Fitbit.Api.Portable.Models
+﻿namespace Fitbit.Api.Portable.Models
 {
+    using System;
+
     public class SleepDateRange
     {
         public string DateOfSleep { get; set; }

@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using Newtonsoft.Json;
+
     public class HeartRateZone
     {
         [JsonProperty(PropertyName = "caloriesOut")]

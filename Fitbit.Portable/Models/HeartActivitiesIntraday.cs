@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Fitbit.Api.Portable.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Fitbit.Api.Portable.Models;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+
     public class HeartActivitiesIntraday
     {
         public IntradayActivitiesHeart ActivitiesHeart { get; set; }

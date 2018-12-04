@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using Newtonsoft.Json;
+
     public class ApiError
     {
         /// <summary>
@@ -11,7 +11,7 @@ namespace Fitbit.Models
         public string ErrorType { get; set; }
 
         /// <summary>
-        /// Added into the model for future reference; currently only used on a couple of errors and no 
+        /// Added into the model for future reference; currently only used on a couple of errors and no
         /// data other than "n/a" is returned according to the documentation - https://dev.fitbit.com/docs/oauth2/#api-request-errors
         /// </summary>
         [JsonProperty("fieldName")]

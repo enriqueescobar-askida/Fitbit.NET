@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Fitbit.Models;
-using Newtonsoft.Json;
-
-namespace Fitbit.Api.Portable.Models
+﻿namespace Fitbit.Api.Portable.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    using Fitbit.Models;
+
+    using Newtonsoft.Json;
+
     public class IntradayActivitiesHeart
     {
         [JsonProperty(PropertyName = "customHeartRateZones")]

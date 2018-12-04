@@ -8,6 +8,6 @@
         sleep,
         body,
         user,
-        weight    
+        weight
     }
 }

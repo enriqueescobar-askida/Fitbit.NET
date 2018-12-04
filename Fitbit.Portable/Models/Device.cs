@@ -1,8 +1,9 @@
-﻿using System;
-using Newtonsoft.Json;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using System;
+
+    using Newtonsoft.Json;
+
     public class Device
     {
         [JsonProperty("battery")]

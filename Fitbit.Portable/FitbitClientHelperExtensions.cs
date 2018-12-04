@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using Fitbit.Models;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Http;
+
+    using Fitbit.Models;
+
     internal static class FitbitClientHelperExtensions
     {
         /// <summary>
@@ -21,9 +22,9 @@ namespace Fitbit.Api.Portable
             string userSignifier = "-"; //used for current user
             if (!string.IsNullOrWhiteSpace(encodedUserId))
             {
-                userSignifier = encodedUserId;    
+                userSignifier = encodedUserId;
             }
-            
+
             List<object> parameters = new List<object> {userSignifier};
             if (args != null)
             {
@@ -120,7 +121,7 @@ namespace Fitbit.Api.Portable
 
                 return innerHandler;
             }
-            
+
             return null;
         }
     }

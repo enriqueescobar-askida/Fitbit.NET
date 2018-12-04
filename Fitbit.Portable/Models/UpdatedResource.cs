@@ -1,13 +1,12 @@
-﻿using System;
-using System.Xml.Serialization;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using System;
+    using System.Xml.Serialization;
+
     /// <summary>
     /// Class that represents the subscription information sent from Fitbit to alert of new updated resources
     /// https://wiki.fitbit.com/display/API/Fitbit+Subscriptions+API#FitbitSubscriptionsAPI-NotificationFormat
     /// </summary>
-    /// 
     public class UpdatedResource
     {
         [XmlElement("collectionType")]

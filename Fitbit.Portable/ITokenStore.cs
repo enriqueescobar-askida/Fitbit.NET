@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Fitbit.Api.Portable
+﻿namespace Fitbit.Api.Portable
 {
-    public interface ITokenStore 
-    { 
-        string Read();  
- 
-        void Write(string bearerToken, string refreshToken, DateTime expiration); // Maybe a TimeSpan instead? 
-    } 
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+
+    public interface ITokenStore
+    {
+        string Read();
+
+        void Write(string bearerToken, string refreshToken, DateTime expiration); // Maybe a TimeSpan instead?
+    }
 }

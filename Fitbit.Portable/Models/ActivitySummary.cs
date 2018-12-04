@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace Fitbit.Models
+﻿namespace Fitbit.Models
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class ActivitySummary
     {
         // removed from Fitbit API:  https://groups.google.com/forum/#!topic/fitbit-api/8IRaX6RW7g4

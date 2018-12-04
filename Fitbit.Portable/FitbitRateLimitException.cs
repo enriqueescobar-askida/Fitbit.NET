@@ -1,9 +1,10 @@
-using System;
-using System.Collections.Generic;
-using Fitbit.Models;
-
 namespace Fitbit.Api.Portable
 {
+    using System;
+    using System.Collections.Generic;
+
+    using Fitbit.Models;
+
     public class FitbitRateLimitException : FitbitException
     {
         /// <summary>
